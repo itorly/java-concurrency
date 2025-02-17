@@ -40,6 +40,19 @@ public class CompletableFutureExample {
 
         String result = futureOfApply.get();
         System.out.println("Result: " + result);
+
+
+        /**
+         * thenCompose
+         * Chain multiple CompletableFuture together in a series.
+         */
+        CompletableFuture<Integer> firstFuture = simulateIntegerCompletableFuture(1);
+        CompletableFuture<String> secondFuture = firstFuture.thenCompose(integer -> {
+            simulateBusiness();
+            return simulateStringCompletableFuture("Result: " + integer);
+        });
+        String s = secondFuture.get();
+        System.out.println(s);
     }
 
     public static void simulateBusiness( ) {
@@ -48,5 +61,19 @@ public class CompletableFutureExample {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static CompletableFuture<String> simulateStringCompletableFuture( String string ) {
+        return CompletableFuture.supplyAsync(() -> {
+            simulateBusiness();
+            return string;
+        });
+    }
+
+    public static CompletableFuture<Integer> simulateIntegerCompletableFuture( Integer integer ) {
+        return CompletableFuture.supplyAsync(() -> {
+            simulateBusiness();
+            return integer;
+        });
     }
 }
