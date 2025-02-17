@@ -46,10 +46,10 @@ public class CompletableFutureExample {
          * thenCompose
          * Chain multiple CompletableFuture together in a series.
          */
-        CompletableFuture<Integer> firstFuture = simulateIntegerCompletableFuture(1);
+        CompletableFuture<Integer> firstFuture = simulateCompletableFuture(1);
         CompletableFuture<String> secondFuture = firstFuture.thenCompose(integer -> {
             simulateBusiness();
-            return simulateStringCompletableFuture("Result: " + integer);
+            return simulateCompletableFuture("Result: " + integer);
         });
         String s = secondFuture.get();
         System.out.println(s);
@@ -63,17 +63,11 @@ public class CompletableFutureExample {
         }
     }
 
-    public static CompletableFuture<String> simulateStringCompletableFuture( String string ) {
+    public static <T> CompletableFuture<T> simulateCompletableFuture( T t ) {
         return CompletableFuture.supplyAsync(() -> {
             simulateBusiness();
-            return string;
+            return t;
         });
     }
 
-    public static CompletableFuture<Integer> simulateIntegerCompletableFuture( Integer integer ) {
-        return CompletableFuture.supplyAsync(() -> {
-            simulateBusiness();
-            return integer;
-        });
-    }
 }
