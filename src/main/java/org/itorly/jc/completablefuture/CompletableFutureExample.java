@@ -84,6 +84,17 @@ public class CompletableFutureExample {
         Void unused = allOfFuture.get();
         System.out.println("All tasks completed.");
 
+        /**
+         * anyOf
+         * Multiple tasks can be aggregated into a task set.
+         * Once any one of the tasks in the set is completed,
+         * the process can proceed to the next step.
+         */
+        CompletableFuture<Object> anyOfFuture = CompletableFuture.anyOf(firstFuture, secondFuture);
+
+        Object o = anyOfFuture.get();
+        System.out.println("o: " + o);
+        System.out.println("At least one task is done.");
 
     }
 
