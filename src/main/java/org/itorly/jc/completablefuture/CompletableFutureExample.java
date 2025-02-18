@@ -53,6 +53,20 @@ public class CompletableFutureExample {
         });
         String s = secondFuture.get();
         System.out.println(s);
+
+        /**
+         * thenCombine
+         * Perform map operations on two CompletableFuture objects
+         */
+        CompletableFuture<String> thirdFuture = simulateCompletableFuture("key");
+        CompletableFuture<String> fourthFuture = simulateCompletableFuture("value");
+        CompletableFuture<String> combinedFuture = thirdFuture.thenCombine(fourthFuture, (k, v) -> {
+            return k + ":" + v;
+        });
+        String combinedResult = combinedFuture.get();
+        System.out.println("Combined Result: " + combinedResult);
+
+
     }
 
     public static void simulateBusiness( ) {
