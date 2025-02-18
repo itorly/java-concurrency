@@ -46,25 +46,43 @@ public class CompletableFutureExample {
          * thenCompose
          * Chain multiple CompletableFuture together in a series.
          */
-        CompletableFuture<Integer> firstFuture = simulateCompletableFuture(1);
-        CompletableFuture<String> secondFuture = firstFuture.thenCompose(integer -> {
+        CompletableFuture<Integer> firstFutureToCompose = simulateCompletableFuture(1);
+        CompletableFuture<String> secondFutureToCompose = firstFutureToCompose.thenCompose(integer -> {
             simulateBusiness();
             return simulateCompletableFuture("Result: " + integer);
         });
-        String s = secondFuture.get();
+        String s = secondFutureToCompose.get();
         System.out.println(s);
 
         /**
          * thenCombine
          * Perform map operations on two CompletableFuture objects
          */
-        CompletableFuture<String> thirdFuture = simulateCompletableFuture("key");
-        CompletableFuture<String> fourthFuture = simulateCompletableFuture("value");
-        CompletableFuture<String> combinedFuture = thirdFuture.thenCombine(fourthFuture, (k, v) -> {
+        CompletableFuture<String> firstFutureToCombine = simulateCompletableFuture("key");
+        CompletableFuture<String> secondFutureToCombine = simulateCompletableFuture("value");
+        CompletableFuture<String> combinedFuture =
+                firstFutureToCombine.thenCombine(secondFutureToCombine, (k, v) -> {
             return k + ":" + v;
         });
         String combinedResult = combinedFuture.get();
         System.out.println("Combined Result: " + combinedResult);
+
+        /**
+         * allOf
+         * Multiple tasks are aggregated into a task set,
+         * and the process can only proceed further after all tasks in the set are completed.
+         */
+        CompletableFuture<Void> firstFuture = CompletableFuture.runAsync(() -> {
+            simulateBusiness();
+            System.out.println("First task completed.");
+        });
+        CompletableFuture<Void> secondFuture = CompletableFuture.runAsync(() -> {
+            simulateBusiness();
+            System.out.println("Second task completed.");
+        });
+        CompletableFuture<Void> allOfFuture = CompletableFuture.allOf(firstFuture, secondFuture);
+        Void unused = allOfFuture.get();
+        System.out.println("All tasks completed.");
 
 
     }
