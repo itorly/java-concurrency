@@ -1,5 +1,6 @@
 package org.itorly.jc;
 
+import org.itorly.jc.synchronize.SyncAndAnotherMethod;
 import org.itorly.jc.synchronize.SynchronizedObj;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class SynchronizeTest {
+
+    @Test
+    public void testSyncAndOtherMethod() throws InterruptedException {
+        SyncAndAnotherMethod t = new SyncAndAnotherMethod();
+        Thread thread1 = new Thread(t::one, "第一个线程");
+        Thread thread2 = new Thread(t::two, "第二个线程");
+
+        thread1.start();
+        thread2.start();
+
+        // 等待两个线程执行完毕
+        thread1.join();
+        thread2.join();
+    }
 
     @Test
     public void testSynchronizedObj() throws InterruptedException, NoSuchMethodException {
