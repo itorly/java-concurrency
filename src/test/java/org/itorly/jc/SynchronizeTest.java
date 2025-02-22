@@ -2,6 +2,7 @@ package org.itorly.jc;
 
 import org.itorly.jc.synchronize.SyncAndAnotherMethod;
 import org.itorly.jc.synchronize.SynchronizedObj;
+import org.itorly.jc.synchronize.SynchronizedReadAndWrite;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
@@ -11,6 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SynchronizeTest {
 
+
+    @Test
+    public void testSynchronizedReadAndWrite() throws InterruptedException {
+        SynchronizedReadAndWrite bus = new SynchronizedReadAndWrite();
+        System.out.println("Initial number of tickets：" + bus.getTicket());
+        new Thread(() -> bus.buy(1)).start();
+        for (int i = 1; i <= 10; i++) {
+            Thread.sleep(500);
+            int finalI = i;
+            new Thread(() ->
+                    System.out.println("The number of times for querying the remaining number of tickets: " +
+                            finalI + ", number of tickets: " + bus.getTicket())).start();
+        }
+    }
     @Test
     public void testSyncAndOtherMethod() throws InterruptedException {
         SyncAndAnotherMethod t = new SyncAndAnotherMethod();
