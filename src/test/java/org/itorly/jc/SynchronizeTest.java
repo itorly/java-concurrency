@@ -1,9 +1,6 @@
 package org.itorly.jc;
 
-import org.itorly.jc.synchronize.ReentrancyOfSynchronized;
-import org.itorly.jc.synchronize.SyncAndAnotherMethod;
-import org.itorly.jc.synchronize.SynchronizedObj;
-import org.itorly.jc.synchronize.SynchronizedReadAndWrite;
+import org.itorly.jc.synchronize.*;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
@@ -12,6 +9,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class SynchronizeTest {
+
+    @Test
+    public void testExceptionCausingRelease() throws InterruptedException {
+        ExceptionCausingRelease ecr = new ExceptionCausingRelease();
+        Thread t1 = new Thread(ecr::add, "1");
+        t1.start();
+        t1.join();
+
+        Thread.sleep(1000);
+
+        Thread t2 = new Thread(ecr::add, "2");
+        t2.start();
+        t2.join();
+    }
 
     @Test
     public void testReentrancyOfSynchronized() throws InterruptedException {

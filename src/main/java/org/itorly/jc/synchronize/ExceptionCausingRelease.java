@@ -4,7 +4,7 @@ public class ExceptionCausingRelease {
 
     private int count = 0;
 
-    synchronized void add() {
+    public synchronized void add() {
         System.out.println("Thread " + Thread.currentThread().getName() + " start");
         while (true) {
             count++;
