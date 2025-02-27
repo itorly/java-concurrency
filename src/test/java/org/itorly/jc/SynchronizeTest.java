@@ -1,6 +1,9 @@
 package org.itorly.jc;
 
 import org.itorly.jc.synchronize.*;
+import org.itorly.jc.wait_notify_notifyAll.Consumer;
+import org.itorly.jc.wait_notify_notifyAll.Message;
+import org.itorly.jc.wait_notify_notifyAll.Producer;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
@@ -9,6 +12,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class SynchronizeTest {
+
+    @Test
+    public void testWaitNotifyAll() throws InterruptedException {
+        Message message = new Message();
+
+        Thread producerThread = new Thread(new Producer(message));
+        Thread consumerThread = new Thread(new Consumer(message));
+
+        producerThread.start();
+        consumerThread.start();
+    }
 
     @Test
     public void testExceptionCausingRelease() throws InterruptedException {
