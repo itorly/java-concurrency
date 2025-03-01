@@ -22,6 +22,9 @@ public class SynchronizeTest {
 
         producerThread.start();
         consumerThread.start();
+
+        producerThread.join();
+        consumerThread.join();
     }
 
     @Test
