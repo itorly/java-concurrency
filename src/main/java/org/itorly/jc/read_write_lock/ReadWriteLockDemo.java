@@ -32,7 +32,7 @@ public class ReadWriteLockDemo {
             System.out.println(Thread.currentThread().getName() + " is writing the resource.");
             sharedResource = value;
             // Simulate writing operation
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -46,7 +46,7 @@ public class ReadWriteLockDemo {
         // Create multiple reader threads
         for (int i = 0; i < 5; i++) {
             new Thread(() -> {
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 4; j++) {
                     demo.readResource();
                 }
             }, "Reader-" + i).start();
@@ -54,7 +54,14 @@ public class ReadWriteLockDemo {
 
         // Create a writer thread
         new Thread(() -> {
-            for (int j = 0; j < 2; j++) {
+            for (int j = 0; j < 3; j++) {
+                if (j>0) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 demo.writeResource(j + 1);
             }
         }, "Writer").start();
