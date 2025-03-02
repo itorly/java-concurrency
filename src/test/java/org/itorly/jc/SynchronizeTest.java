@@ -1,9 +1,9 @@
 package org.itorly.jc;
 
 import org.itorly.jc.synchronize.*;
-import org.itorly.jc.wait_notify_notifyAll.Consumer;
-import org.itorly.jc.wait_notify_notifyAll.Message;
-import org.itorly.jc.wait_notify_notifyAll.Producer;
+import org.itorly.jc.synchronize.wait_notify_notifyAll.Consumer;
+import org.itorly.jc.synchronize.wait_notify_notifyAll.Message;
+import org.itorly.jc.synchronize.wait_notify_notifyAll.Producer;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;

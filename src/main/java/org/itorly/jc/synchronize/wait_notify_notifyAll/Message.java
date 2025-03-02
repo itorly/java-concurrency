@@ -1,4 +1,4 @@
-package org.itorly.jc.wait_notify_notifyAll;
+package org.itorly.jc.synchronize.wait_notify_notifyAll;
 
 public class Message {
     private String message;
